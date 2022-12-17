@@ -22,5 +22,38 @@ db.sequelize = sequelize;
 
 db.dresseurs = require("./dresseur.model.js")(sequelize, Sequelize);
 db.pokemons = require("./pokemon.model.js")(sequelize, Sequelize);  
+db.roles = require("./role.model.js")(sequelize, Sequelize);
+
+/*
+db.dresseurs.hasMany(db.pokemons, { as: "pokemons" });
+db.pokemons.belongsTo(db.dresseurs, {
+  foreignKey: "dresseurId",
+  as: "dresseur",
+});
+
+db.dresseurs.belongsTo(db.roles, {
+  foreignKey: "roleId",
+  as: "role",
+});
+*/
+
+let models = [
+  require("../models/dresseur.model.js")(sequelize, Sequelize.DataTypes),
+  require("../models/pokemon.model.js")(sequelize, Sequelize.DataTypes),
+  require("../models/role.model.js")(sequelize, Sequelize.DataTypes),
+];
+
+models.forEach((model) => {
+  db[model.name] = model;
+});
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+
+db.ROLES = ["USER", "ADMIN"];
 
 module.exports = db;
