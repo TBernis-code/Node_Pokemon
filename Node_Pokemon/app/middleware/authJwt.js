@@ -4,8 +4,8 @@ This file has all the verification that the routes will go through to check if t
 
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-const Dresseur = db.dresseurModel;
-const Pokemon = db.pokemonModel;
+const Dresseur = db.dresseurs;
+const Pokemon = db.pokemons;
 
 //Vérifie si un token a été envoyé avec la requête
 verifyToken = (req, res, next) => {

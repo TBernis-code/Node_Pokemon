@@ -25,6 +25,9 @@ exports.register = (req, res) => {
                 console.log(
                     "user create successfully (avec compte subscriber) ==============> "
                 );
+                res.status(200).send({
+                    message: "Dresseur enregistré avec succès!",
+                });
             });
         })
 

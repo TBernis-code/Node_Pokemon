@@ -29,8 +29,7 @@ exports.create = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the Dresseur."
+        message: err.message || "Some error occurred while creating the Dresseur."
       });
     });
 };
@@ -44,8 +43,7 @@ exports.findAll = (req, res) => {
     })
     .catch(err => {
       res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving Dresseurs."
+        message: err.message || "Some error occurred while retrieving Dresseurs."
       });
     });
 };
@@ -54,7 +52,10 @@ exports.findAll = (req, res) => {
 exports.findOne = (req, res) => {
   const id = req.params.id;
 
-  Dresseur.findByPk(id)
+  Dresseur.findByPk(id, {
+      include: ["pokemons"],
+      attributes: ["nom", "prenom", "age"]
+    })
     .then(data => {
       if (data) {
         res.send(data);
@@ -76,8 +77,10 @@ exports.update = (req, res) => {
   const id = req.params.id;
 
   Dresseur.update(req.body, {
-    where: { id: id }
-  })
+      where: {
+        id: id
+      }
+    })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -101,8 +104,10 @@ exports.delete = (req, res) => {
   const id = req.params.id;
 
   Dresseur.destroy({
-    where: { id: id }
-  })
+      where: {
+        id: id
+      }
+    })
     .then(num => {
       if (num == 1) {
         res.send({
@@ -120,4 +125,3 @@ exports.delete = (req, res) => {
       });
     });
 };
-

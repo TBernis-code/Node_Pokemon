@@ -84,6 +84,8 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome" });
 });
 
+/*
+
 const auth = require("./app/controllers/auth.controller.js");
 const { verifyRegister } = require("./app/middleware");
 
@@ -97,7 +99,7 @@ app.post(
 
 
 app.post("/login", auth.login);
-
+*/
 
 // routes
 require("./app/routes/pokemon.routes")(app);
