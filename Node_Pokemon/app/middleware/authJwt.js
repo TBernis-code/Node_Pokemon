@@ -1,17 +1,19 @@
 /*
-This file has all the verification that the routes will go through to check if the dresseur has the correct authorization
+This file has all the verification that the routes will go through to check if the trainer has the correct authorization
 */
 
 const jwt = require("jsonwebtoken");
 const db = require("../models");
-const Dresseur = db.dresseurs;
+const Trainer = db.trainers;
 const Pokemon = db.pokemons;
+const logger = require('../../logger')
+
 
 //Vérifie si un token a été envoyé avec la requête
 verifyToken = (req, res, next) => {
     let token = req.headers["authorization"];
     if (!token) {
-        console.log(req.headers);
+        logger.info( "No token provided!");
         return res.status(403).send({
             message: "No token provided!",
         });
@@ -20,6 +22,7 @@ verifyToken = (req, res, next) => {
     const bearerToken = token.split(" ");
 
     if (bearerToken.length !== 2 || bearerToken[0] !== "Bearer") {
+        logger.info( "Invalid token!");
         return res.status(401).send({
             error: "Invalid token!",
         });
@@ -29,11 +32,12 @@ verifyToken = (req, res, next) => {
 
     jwt.verify(bearerToken[1], process.env.secret, (err, decoded) => {
         if (err) {
+            logger.info( "Unauthorized :" + err);
             return res.status(401).send({
                 message: "verifyToken : Unauthorized!",
             });
         }
-        req.dresseurId = decoded.id;
+        req.trainerId = decoded.id;
         next();
     });
 };
@@ -41,11 +45,11 @@ verifyToken = (req, res, next) => {
 //vérifie si l'utilisateur qui a envoyé la requête est le propriétaire de la ressource demandé
 verifyDresseur = (req, res, next) => {
     const id = req.params.id;
-    Dresseur.findByPk(req.dresseurId).then((dresseur) => {
-        dresseur.getRole().then((role) => {
+    Trainer.findByPk(req.trainerId).then((trainer) => {
+        trainer.getRole().then((role) => {
             if (
                 role.name === "ADMIN" ||
-                req.dresseurId == id
+                req.trainerId == id
             ) {
                 next();
                 return;
@@ -59,11 +63,11 @@ verifyDresseur = (req, res, next) => {
     });
 };
 
-//vérifie si l'utilisateur qui a envoyé la requête est le propriétaire du pokemon demandé
+//vérifie si l'utilisateur qui a envoyé la requête est le propriétaire du Pokemon demandé
 verifyPokemon = (req, res, next) => {
     const id = req.params.id;
     Pokemon.findByPk(id).then((pokemon) => {
-        if (pokemon.dresseurId == req.dresseurId || req.isAdmin == true) {
+        if (pokemon.trainerId == req.trainerId || req.isAdmin == true) {
             next();
             return;
         }
@@ -76,8 +80,8 @@ verifyPokemon = (req, res, next) => {
 
 //Vérifie si l'utilisateur qui a envoyé la requête est un admin
 isAdmin = (req, res, next) => {
-    Dresseur.findByPk(req.dresseurId).then((dresseur) => {
-        dresseur.getRole().then((role) => {
+    Trainer.findByPk(req.trainerId).then((trainer) => {
+        trainer.getRole().then((role) => {
             if (role.name === "ADMIN") {
                 next();
                 return;
@@ -93,8 +97,8 @@ isAdmin = (req, res, next) => {
 
 //Vérifie si l'utilisateur qui a envoyé la requête est un USER
 isUser = (req, res, next) => {
-    Dresseur.findByPk(req.dresseurId).then((dresseur) => {
-        dresseur.getRole().then((role) => {
+    Trainer.findByPk(req.trainerId).then((trainer) => {
+        trainer.getRole().then((role) => {
             if (role.name === "USER" || role.name === "ADMIN") {
                 next();
                 return;
