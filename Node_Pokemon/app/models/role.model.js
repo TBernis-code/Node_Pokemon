@@ -6,9 +6,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  // Association with the dresseur table
+  // Association with the trainer table
   Role.associate = (models) => {
-    Role.hasMany(models.dresseur);
+    Role.hasMany(models.trainer);
   };
     try {
         //Init the base value

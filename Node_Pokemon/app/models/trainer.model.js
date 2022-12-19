@@ -1,37 +1,37 @@
-var bcrypt = require("bcrypt");
+//var bcrypt = require("bcrypt");
 
 module.exports = (sequelize, Sequelize) => {
-  const Dresseur = sequelize.define("dresseur", {
-    nom: { // Nom du dresseur 
+  const Trainer = sequelize.define("trainer", {
+    nom: { // Nom du trainer 
       type: Sequelize.STRING
     },
-    prenom: { // Prénom du dresseur
+    prenom: { // Prénom du trainer
       type: Sequelize.STRING
     },
-    login: { // Login du dresseur
+    login: { // Login du trainer
       type: Sequelize.STRING
     },
-    password: { // Mot de passe du dresseur
+    password: { // Mot de passe du trainer
       type: Sequelize.STRING
     },
-    age: { // Age du dresseur
+    age: { // Age du trainer
       type: Sequelize.INTEGER
     },
     /*
-    role: { // Rôles du dresseur
+    role: { // Rôles du trainer
       type: Sequelize.STRING
     },
     */
   });
 
-  Dresseur.associate = (models) => {
-    Dresseur.hasMany(models.pokemon);
-    Dresseur.belongsTo(models.role);
+  Trainer.associate = (models) => {
+    Trainer.hasMany(models.pokemon);
+    Trainer.belongsTo(models.role);
 
   };
-
+/*
   try {
-    Dresseur.create({
+    Trainer.create({
         id: 1,
         nom: "Pokemaniac",
         prenom: "Léo",
@@ -42,9 +42,9 @@ module.exports = (sequelize, Sequelize) => {
     });
 }
 catch (error) {
-    console.log("Dresseur create init failed"+error)
+    console.log("Trainer create init failed"+error)
 }
+*/
 
-
-  return Dresseur;
+  return Trainer;
 };

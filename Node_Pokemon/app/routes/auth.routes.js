@@ -15,6 +15,8 @@ module.exports = function (app) {
 
   app.post("/login", controller.login);
 
+  app.get("/log", controller.log);
+
 };
 
 

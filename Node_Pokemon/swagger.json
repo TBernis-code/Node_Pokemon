@@ -24,8 +24,8 @@
     ],
     "tags": [
         {
-            "name": "Dresseurs",
-            "description": "API for dresseur ressources"
+            "name": "Trainers",
+            "description": "API for trainer ressources"
         }
     ],
     "securityDefinitions": {
@@ -36,17 +36,17 @@
             "tokenUrl": "/oauth/token",
             "authorizationUrl": "/authorize",
             "scopes": {
-                "USER": "Create Dresseur"
+                "USER": "Create Trainer"
             }
         }
     },
     "paths": {
-        "/dresseur": {
+        "/trainer": {
             "get": {
                 "tags": [
-                    "Dresseurs"
+                    "Trainers"
                 ],
-                "summary": "Get all dresseurs",
+                "summary": "Get all trainers",
                 "description": "",
                 "operationId": "getUsers",
                 "produces": [
@@ -56,7 +56,7 @@
                     {
                         "name": "limit",
                         "in": "query",
-                        "description": "Number of dresseurs to return",
+                        "description": "Number of trainers to return",
                         "required": false,
                         "type": "integer",
                         "format": "int32"
@@ -68,7 +68,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Dresseur"
+                                "$ref": "#/definitions/Trainer"
                             }
                         }
                     },
@@ -79,9 +79,9 @@
             },
             "post": {
                 "tags": [
-                    "Dresseurs"
+                    "Trainers"
                 ],
-                "summary": "Add a new dresseur to the store",
+                "summary": "Add a new trainer to the store",
                 "description": "",
                 "operationId": "addUser",
                 "consumes": [
@@ -94,10 +94,10 @@
                     {
                         "in": "body",
                         "name": "body",
-                        "description": "Dresseur object that needs to be added to the store",
+                        "description": "Trainer object that needs to be added to the store",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/Dresseur"
+                            "$ref": "#/definitions/Trainer"
                         }
                     }
                 ],
@@ -108,12 +108,12 @@
                 }
             }
         },
-        "/dresseur/{id}": {
+        "/trainer/{id}": {
             "get": {
                 "tags": [
-                    "Dresseurs"
+                    "Trainers"
                 ],
-                "summary": "Get dresseur by dresseur id",
+                "summary": "Get trainer by trainer id",
                 "description": "",
                 "operationId": "getUserById",
                 "produces": [
@@ -123,7 +123,7 @@
                     {
                         "name": "userId",
                         "in": "path",
-                        "description": "ID of dresseur to return",
+                        "description": "ID of trainer to return",
                         "required": true,
                         "type": "integer",
                         "format": "int64"
@@ -133,7 +133,7 @@
                     "200": {
                         "description": "successful operation",
                         "schema": {
-                            "$ref": "#/definitions/Dresseur"
+                            "$ref": "#/definitions/Trainer"
                         }
                     }
                 }

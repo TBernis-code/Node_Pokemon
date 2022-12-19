@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "Tony Bernis",
   "dependencies": {
@@ -17,5 +17,11 @@
     "mysql2": "^2.0.2",
     "sequelize": "^6.21.0",
     "swagger-ui-express": "^4.6.0"
+  },
+  "devDependencies": {
+    "csv-parser": "^3.0.0",
+    "eslint": "^8.30.0",
+    "mocha": "^10.2.0",
+    "winston": "^3.8.2"
   }
 }

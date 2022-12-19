@@ -25,7 +25,7 @@ module.exports = (sequelize, Sequelize) => {
     });
 
     Pokemon.associate = (models) => {
-        Pokemon.belongsTo(models.dresseur);
+        Pokemon.belongsTo(models.trainer);
       };
     return Pokemon;
   };
