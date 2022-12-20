@@ -1,143 +1,505 @@
 {
-    "swagger": "2.0",
-    "info": {
-        "version": "1.0.0",
-        "title": "Node Backend",
-        "description": "A simple Node Backend",
-        "contact": {
-            "name": "Tony Bernis",
-            "email": "tony.bernis@epita.fr"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Pokemon Node Backend",
+    "description": "Pokemon node backend",
+    "contact": {
+      "name": "Tony Bernis",
+      "email": "tony.bernis@epita.fr"
+    }
+  },
+
+  "host": "localhost:6868",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "tags": [
+    {
+      "name": "Trainers",
+      "description": "API for trainer ressources"
+    }
+  ],
+  "securityDefinitions": {
+    "bearerAuth": {
+      "type": "apiKey",
+      "name": "authorization",
+      "in": "header"
+    }
+  },
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": ["Authentification"],
+        "summary": "Login a trainer",
+        "description": "",
+        "operationId": "loginTrainer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "successful login"
+            
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
         }
-       
+      }
+    },
+    "/register": {
+      "post": {
+        "tags": ["Authentification"],
+        "summary": "Register a trainer",
+        "description": "",
+        "operationId": "registerTrainer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Register object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Trainer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Trainer"
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      }
     },
 
-    "host": "localhost:3000",
-    "basePath": "/",
-    "schemes": [
-        "http"
-    ],
-    "consumes": [
-        "application/json"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "tags": [
-        {
-            "name": "Trainers",
-            "description": "API for trainer ressources"
-        }
-    ],
-    "securityDefinitions": {
-        "oauth2": {
-            "type": "oauth2",
-            "description": "OAuth2 Implicit Grant",
-            "flow": "accessCode",
-            "tokenUrl": "/oauth/token",
-            "authorizationUrl": "/authorize",
-            "scopes": {
-                "USER": "Create Trainer"
+    "/trainers": {
+      "get": {
+        "tags": ["Trainers"],
+        "summary": "Get all trainers",
+        "description": "",
+        "operationId": "getTrainers",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of trainers to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Trainer"
+              }
             }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
         }
+      },
+      "post": {
+        "tags": ["Trainers"],
+        "summary": "Add a new trainer to the store",
+        "description": "",
+        "operationId": "addTrainer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Trainer object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Trainer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
     },
-    "paths": {
-        "/trainer": {
-            "get": {
-                "tags": [
-                    "Trainers"
-                ],
-                "summary": "Get all trainers",
-                "description": "",
-                "operationId": "getUsers",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Number of trainers to return",
-                        "required": false,
-                        "type": "integer",
-                        "format": "int32"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Trainer"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid status value"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "Trainers"
-                ],
-                "summary": "Add a new trainer to the store",
-                "description": "",
-                "operationId": "addUser",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Trainer object that needs to be added to the store",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/Trainer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "405": {
-                        "description": "Invalid input"
-                    }
-                }
+
+    "/trainers/{id}": {
+      "get": {
+        "tags": ["Trainers"],
+        "summary": "Get trainer by trainer id",
+        "description": "",
+        "operationId": "getTrainerById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of trainer to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Trainer"
             }
-        },
-        "/trainer/{id}": {
-            "get": {
-                "tags": [
-                    "Trainers"
-                ],
-                "summary": "Get trainer by trainer id",
-                "description": "",
-                "operationId": "getUserById",
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID of trainer to return",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "schema": {
-                            "$ref": "#/definitions/Trainer"
-                        }
-                    }
-                }
-            }
+          }
         }
+      },
+      "put": {
+        "tags": ["Trainers"],
+        "summary": "Update an existing trainer",
+        "description": "",
+        "operationId": "updateTrainer",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of trainer that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Trainer object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Trainer"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Trainer not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Trainers"],
+        "summary": "Delete a trainer",
+        "description": "",
+        "operationId": "deleteTrainer",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Trainer id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Trainer not found"
+          }
+        }
+      }
+    },
+    "/pokemons": {
+      "get": {
+        "tags": ["Pokemons"],
+        "summary": "Get all pokemons",
+        "description": "",
+        "operationId": "getPokemons",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of pokemons to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pokemon"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Pokemons"],
+        "summary": "Add a new pokemon to the store",
+        "description": "",
+        "operationId": "addPokemon",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pokemon object that needs to be added to the store",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pokemon"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/pokemons/{id}": {
+      "get": {
+        "tags": ["Pokemons"],
+        "summary": "Get pokemon by pokemon id",
+        "description": "",
+        "operationId": "getPokemonById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of pokemon to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/Pokemon"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Pokemons"],
+        "summary": "Update an existing pokemon",
+        "description": "",
+        "operationId": "updatePokemon",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of pokemon that needs to be updated",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Pokemon object that needs to be updated",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pokemon"
+            }
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pokemon not found"
+          },
+          "405": {
+            "description": "Validation exception"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pokemons"],
+        "summary": "Delete a pokemon",
+        "description": "",
+        "operationId": "deletePokemon",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Pokemon id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "Pokemon not found"
+          }
+        }
+      }
     }
+  },
+  "definitions": {
+    "Trainer": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "nom": {
+          "type": "string"
+        },
+        "prenom": {
+          "type": "string"
+        }
+      }
+    },
+    "Pokemon": {
+      "type": "object",
+      "properties": {
+        "nom": {
+          "type": "string"
+        },
+        "niveau": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "espece": {
+          "type": "string"
+        },
+        "genre": {
+          "type": "string"
+        },
+        "taille": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "poids": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "chromatique": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Login": {
+      "type": "object",
+      "properties": {
+        "login": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    }
+  }
 }

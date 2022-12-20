@@ -41,7 +41,9 @@ exports.create = (req, res) => {
 // Retrieve all Trainers from the database.
 exports.findAll = (req, res) => {
 
-  Trainer.findAll()
+  Trainer.findAll(
+    { attributes: ["nom", "prenom", "age"], include: ["pokemons"], }
+  )
     .then(data => {
       logger.info('All trainers requested sent : ' + data.length );
       res.send(data);
