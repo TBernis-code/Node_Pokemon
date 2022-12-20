@@ -1,6 +1,6 @@
-//Model of the Role table
+// Model of the Role table
 module.exports = (sequelize, DataTypes) => {
-  const Role = sequelize.define("role", {
+  const Role = sequelize.define('role', {
     name: {
       type: DataTypes.STRING,
     },
@@ -10,20 +10,19 @@ module.exports = (sequelize, DataTypes) => {
   Role.associate = (models) => {
     Role.hasMany(models.trainer);
   };
-    try {
-        //Init the base value
-        Role.create({
-            id: 1,
-            name: "ADMIN"
-        });
+  try {
+    // Init the base value
+    Role.create({
+      id: 1,
+      name: 'ADMIN',
+    });
 
-        Role.create({
-            id: 2,
-            name: "USER"
-        });
-    }
-  catch (error) {
-        console.log("Roles create init failed"+error)
-    }
+    Role.create({
+      id: 2,
+      name: 'USER',
+    });
+  } catch (error) {
+    console.log(`Roles create init failed${error}`);
+  }
   return Role;
 };

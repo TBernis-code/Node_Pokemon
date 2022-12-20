@@ -4,8 +4,9 @@
   "description": "Application Pokemon with NodeJS, Express, Sequelize and MySQL",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "test": "mocha"
+    "start": "NODE_OPTIONS='--experimental-specifier-resolution=node' node server.js",
+    "test": "mocha",
+    "lint": "./node_modules/.bin/eslint"
   },
   "author": "Tony Bernis",
   "dependencies": {
@@ -21,7 +22,9 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "csv-parser": "^3.0.0",
-    "eslint": "^8.30.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
     "mocha": "^10.2.0",
     "supertest": "^6.3.3",
     "winston": "^3.8.2"
