@@ -1,9 +1,10 @@
 const db = require('../models');
-
-const Pokemon = db.pokemons;
 const logger = require('../../logger');
 
-// Create and Save a new Pokemon
+const Pokemon = db.pokemons;
+
+
+// Créer et sauvegarder un nouveau Pokemon
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.nom) {
@@ -14,7 +15,7 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Pokemon
+  // Créer un Pokemon
   const pokemon = {
     espece: req.body.espece,
     nom: req.body.nom,
@@ -26,7 +27,7 @@ exports.create = (req, res) => {
     trainerId: req.body.trainerId,
   };
 
-  // Save Pokemon in the database
+  // Sauvegarder le Pokemon dans la base de données
   Pokemon.create(pokemon)
     .then((data) => {
       logger.info('Pokemon created');
@@ -41,7 +42,7 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Pokemons from the database.
+// Réccupérer tous les Pokemons de la base de données
 exports.findAll = (req, res) => {
   Pokemon.findAll()
     .then((data) => {
@@ -57,7 +58,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Pokemon with an id
+// Réccupérer un Pokemon avec un id
 exports.findOne = (req, res) => {
   const { id } = req.params;
 
@@ -81,7 +82,7 @@ exports.findOne = (req, res) => {
     });
 };
 
-// Update a Pokemon by the id in the request
+// Update d'un Pokemon avec un id
 exports.update = (req, res) => {
   const { id } = req.params;
 
@@ -109,7 +110,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Pokemon with the specified id in the request
+// Suppression d'un Pokemon avec un id
 exports.delete = (req, res) => {
   const { id } = req.params;
 

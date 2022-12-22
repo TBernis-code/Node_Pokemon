@@ -6,7 +6,7 @@ const logger = require('../../logger');
 exports.log = (req, res) => {
   logger.info('Log requested');
 
-  // Convert the log file to CSV format
+  // Converti le fichier log en CSV
   fs.createReadStream('log.log')
     .pipe(csv())
     .on('data', (data) => res.status(200).send({ data }))

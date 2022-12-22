@@ -6,6 +6,7 @@ const Pokemon = db.pokemons;
 const Trade = db.trades;
 const logger = require('../../logger');
 
+// Propose un échange entre deux dresseurs
 exports.propose_trade = async (req, res) => {
   const {
     idTrainer1,
@@ -15,7 +16,6 @@ exports.propose_trade = async (req, res) => {
   } = req.body;
 
   try {
-    // Find the Trainer records
     const trainer1 = await Trainer.findByPk(idTrainer1);
     const trainer2 = await Trainer.findByPk(idTrainer2);
     const pokemon1 = await Pokemon.findByPk(idPokemon1);
@@ -23,7 +23,7 @@ exports.propose_trade = async (req, res) => {
 
     logger.info(`--->>${trainer1.id} ${trainer2.id} ${pokemon1.id} ${pokemon2.id}`);
 
-    // Create a new Trade proposal record
+    // Créer une nouvelle proposition d'échange
     await Trade.create({
       trainer1: trainer1.id,
       trainer2: trainer2.id,
@@ -32,20 +32,20 @@ exports.propose_trade = async (req, res) => {
       status: 'pending',
     });
 
-    // Return a response indicating that the trade proposal was successfully submitted
+    // Retourne une réponse indiquant que la proposition d'échange a été soumise avec succès
     logger.info('Trade proposal submitted successfully !');
     res.send({
       message: 'Trade proposal submitted',
     });
   } catch (error) {
     logger.info(`Error during trade: ${error}`);
-    // Handle any errors that occurred during the trade proposal
     res.status(500).send({
       message: error,
     });
   }
 };
 
+// Accepter ou refuser une proposition d'échange
 exports.accept_reject_trade = async (req, res) => {
   const {
     tradeId,
@@ -53,7 +53,6 @@ exports.accept_reject_trade = async (req, res) => {
   } = req.body;
 
   try {
-    // Find the Trade proposal 
     const trade = await Trade.findByPk(tradeId);
 
     if (status === 'accepted') {
@@ -66,23 +65,17 @@ exports.accept_reject_trade = async (req, res) => {
 
       pokemon1.save();
       pokemon2.save();
-
-      // Save the updated Pokemon to the database
-      //await Promise.all(pokemon1.save(), pokemon2.save());
     }
 
-    // Update the status field of the Trade proposal 
+    // Update du status de la proposition d'échange
     trade.set('status', status);
 
-    // Save the updated Trade proposal to the database
     await trade.save();
 
-    // Return a response indicating that the trade proposal was successfully accepted or rejected
     res.send({
       message: 'Trade proposal has been ' + status,
     });
   } catch (error) {
-    // Handle any errors that occurred during the accept/reject process
     res.status(500).send({
       message: error,
     });

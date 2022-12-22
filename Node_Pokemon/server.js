@@ -2,14 +2,9 @@ const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
 
-// import express from "express";
-// import cors from "cors";
-// import swaggerUi from "swagger-ui-express";
 const swaggerUi = require('swagger-ui-express');
 const bcrypt = require('bcrypt');
 const swaggerDocument = require('./swagger.json');
-// import swaggerDocument from "./swagger.json" assert { type: "json" };
-// import { db } from "./app/models";
 
 const app = express();
 
@@ -27,15 +22,13 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-// parse requests of content-type - application/json
+// parser les requêtes de type application/json
 app.use(express.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
+// parser les requêtes de type application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-
-
 
 // Création de la base de données et des tables par défaut
 db.sequelize.sync({ force: true})
@@ -146,9 +139,9 @@ db.sequelize.sync({ force: true})
   });
 
 
-// simple route
+// default route
 app.get('/', (req, res) => {
-  res.json({ message: 'Welcome' });
+  res.json({ message: 'Welcome to the Pokemon API - Attrapez les tous !' });
 });
 
 // routes

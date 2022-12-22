@@ -1,15 +1,12 @@
 /* eslint-disable consistent-return */
 const bcrypt = require('bcrypt');
-
-// const Role = db.roleModel;
-// const Op = db.Sequelize.Op;
-
 const jwt = require('jsonwebtoken');
 const logger = require('../../logger');
 const db = require('../models');
 
 const Trainer = db.trainers;
 
+// Enregistre un nouveau dresseur dans la base de données
 exports.register = (req, res) => {
   Trainer.create({
     nom: req.body.nom,
@@ -31,6 +28,7 @@ exports.register = (req, res) => {
     });
 };
 
+// Connecte un dresseur
 exports.login = (req, res) => {
   Trainer.findOne({
     where: {

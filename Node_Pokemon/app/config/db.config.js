@@ -14,19 +14,3 @@ module.exports = {
     idle: 10000,
   },
 };
-/*
-//development
-module.exports = {
-  HOST: "localhost",
-  USER: "eleda_db_admin",
-  PASSWORD: "2ClxGPICJ29TyET6",
-  DB: "poke_db",
-  dialect: "mysql",
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
-  },
-};
-*/

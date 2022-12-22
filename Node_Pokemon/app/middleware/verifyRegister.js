@@ -3,7 +3,7 @@ const db = require('../models');
 const { ROLES } = db;
 const logger = require('../../logger').default;
 
-// Check if role already exists
+// Vérifie si le rôle requit existe
 function checkRolesExisted(req, res, next) {
   if (req.body.roles) {
     // eslint-disable-next-line no-plusplus

@@ -4,7 +4,7 @@ const db = require('../models');
 const Trainer = db.trainers;
 const logger = require('../../logger');
 
-// Create and Save a new Trainer
+// Création d'un nouveau dresseur
 exports.create = (req, res) => {
   // Validate request
   if (!req.body.login) {
@@ -15,7 +15,6 @@ exports.create = (req, res) => {
     return;
   }
 
-  // Create a Trainer
   const trainer = {
     nom: req.body.nom,
     prenom: req.body.prenom,
@@ -24,7 +23,6 @@ exports.create = (req, res) => {
     age: req.body.age,
   };
 
-  // Save Trainer in the database
   Trainer.create(trainer)
     .then((data) => {
       logger.info(`Trainer created :${data}`);
@@ -38,7 +36,7 @@ exports.create = (req, res) => {
     });
 };
 
-// Retrieve all Trainers from the database.
+// Récupérer tous les dresseurs de la base de données
 exports.findAll = (req, res) => {
   Trainer.findAll(
     { attributes: ['nom', 'prenom', 'age']},
@@ -55,7 +53,7 @@ exports.findAll = (req, res) => {
     });
 };
 
-// Find a single Trainer with an id
+// Récupérer un dresseur par son id
 exports.findOne = (req, res) => {
   const { id } = req.params;
 
@@ -81,6 +79,7 @@ exports.findOne = (req, res) => {
     });
 };
 
+
 const getPagination = (page, size) => {
   const limit = size ? +size : 2;
   const offset = page ? page * limit : 0;
@@ -98,7 +97,7 @@ const getPagingData = (data, page, limit) => {
   };
 };
 
-// get all pokemons of a trainer
+// Récupérer tous les pokemons d'un dresseur
 exports.findAllPokemons = (req, res) => {
   const { id } = req.params;
 
@@ -129,7 +128,7 @@ exports.findAllPokemons = (req, res) => {
     });
 };
 
-// Update a Trainer by the id in the request
+// Update un dresseur par son id
 exports.update = (req, res) => {
   const { id } = req.params;
 
@@ -159,7 +158,7 @@ exports.update = (req, res) => {
     });
 };
 
-// Delete a Trainer with the specified id in the request
+// Supprimer un dresseur par son id
 exports.delete = (req, res) => {
   const { id } = req.params;
 
