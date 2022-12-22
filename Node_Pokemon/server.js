@@ -35,7 +35,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-db.sequelize.sync()
+
+
+// Création de la base de données et des tables par défaut
+db.sequelize.sync({ force: true})
   .then(() => {
     console.log('Synced db.');
     try {
@@ -63,6 +66,38 @@ db.sequelize.sync()
             `${trainer.nom}is now admin`,
           );
         });
+        Pokemon.create({
+          espece: 'Pikachu',
+          nom: 'Pikachu',
+          niveau: 1,
+          genre: 'M',
+          taille: 0.4,
+          poids: 6,
+          chromatique: false,
+          trainerId: 1,
+        });
+    
+        Pokemon.create({
+          espece: 'Bulbizarre',
+          nom: 'Bulbizarre',
+          niveau: 10,
+          genre: 'M',
+          taille: 0.7,
+          poids: 6.9,
+          chromatique: false,
+          trainerId: 1,
+        });
+    
+        Pokemon.create({
+          espece: 'Carapuce',
+          nom: 'Carapuce',
+          niveau: 50,
+          genre: 'F',
+          taille: 0.5,
+          poids: 9,
+          chromatique: false,
+          trainerId: 1,
+        });
       });
 
       Trainer.create({
@@ -78,74 +113,38 @@ db.sequelize.sync()
             `${trainer.nom}is now user`,
           );
         });
+        Pokemon.create({
+          espece: 'Salameche',
+          nom: 'Salameche',
+          niveau: 20,
+          genre: 'M',
+          taille: 0.6,
+          poids: 8.5,
+          chromatique: true,
+          trainerId: 2,
+        });
+    
+        Pokemon.create({
+          espece: 'Rondoudou',
+          nom: 'Rondoudou',
+          niveau: 1,
+          genre: 'F',
+          taille: 0.3,
+          poids: 1.8,
+          chromatique: true,
+          trainerId: 2,
+        });
       });
     } catch (error) {
       console.log(`Trainer create init failed${error}`);
     }
 
-    Pokemon.create({
-      espece: 'Pikachu',
-      nom: 'Pikachu',
-      niveau: 1,
-      genre: 'M',
-      taille: 0.4,
-      poids: 6,
-      chromatique: false,
-      trainerId: 1,
-    });
-
-    Pokemon.create({
-      espece: 'Bulbizarre',
-      nom: 'Bulbizarre',
-      niveau: 10,
-      genre: 'M',
-      taille: 0.7,
-      poids: 6.9,
-      chromatique: false,
-      trainerId: 1,
-    });
-
-    Pokemon.create({
-      espece: 'Carapuce',
-      nom: 'Carapuce',
-      niveau: 50,
-      genre: 'F',
-      taille: 0.5,
-      poids: 9,
-      chromatique: false,
-      trainerId: 1,
-    });
-
-    Pokemon.create({
-      espece: 'Salameche',
-      nom: 'Salameche',
-      niveau: 20,
-      genre: 'M',
-      taille: 0.6,
-      poids: 8.5,
-      chromatique: true,
-      trainerId: 2,
-    });
-
-    Pokemon.create({
-      espece: 'Rondoudou',
-      nom: 'Rondoudou',
-      niveau: 1,
-      genre: 'F',
-      taille: 0.3,
-      poids: 1.8,
-      chromatique: true,
-      trainerId: 2,
-    });
+    
   })
   .catch((err) => {
     console.log(`Failed to sync db: ${err.message}`);
   });
 
-// // drop the table if it already exists
-// db.sequelize.sync({ force: true }).then(() => {
-//   console.log("Drop and re-sync db.");
-// });
 
 // simple route
 app.get('/', (req, res) => {
@@ -165,3 +164,6 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
   logger.info(`Server is running on port ${PORT}.`);
 });
+
+module.exports = app;
+

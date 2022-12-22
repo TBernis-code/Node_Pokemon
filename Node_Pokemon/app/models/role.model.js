@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   Role.associate = (models) => {
     Role.hasMany(models.trainer);
   };
+  /*
   try {
     // Init the base value
     Role.create({
@@ -24,5 +25,6 @@ module.exports = (sequelize, DataTypes) => {
   } catch (error) {
     console.log(`Roles create init failed${error}`);
   }
+  */
   return Role;
 };

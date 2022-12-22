@@ -10,7 +10,7 @@
     }
   },
 
-  "host": "localhost:6868",
+  "host": "localhost:8081",
   "basePath": "/",
   "schemes": ["http"],
   "consumes": ["application/json"],

@@ -1,2 +1,8 @@
 extends:
    - "airbnb-base"
+
+# exclude all files in the node_modules directory from being linted by ESLint 
+
+exclude:
+   - "node_modules/**"
+   - "test/**"

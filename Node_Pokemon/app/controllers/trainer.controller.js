@@ -41,7 +41,7 @@ exports.create = (req, res) => {
 // Retrieve all Trainers from the database.
 exports.findAll = (req, res) => {
   Trainer.findAll(
-    { attributes: ['nom', 'prenom', 'age'], include: ['pokemons'] },
+    { attributes: ['nom', 'prenom', 'age']},
   )
     .then((data) => {
       logger.info(`All trainers requested sent : ${data.length}`);
@@ -60,7 +60,6 @@ exports.findOne = (req, res) => {
   const { id } = req.params;
 
   Trainer.findByPk(id, {
-    include: ['pokemons'],
     attributes: ['nom', 'prenom', 'age'],
   })
     .then((data) => {
@@ -108,13 +107,13 @@ exports.findAllPokemons = (req, res) => {
 
   Trainer.findByPk(id, {
     include: ['pokemons'],
-    attributes: [],
+    attributes: ['nom', 'prenom'],
   })
     .then((data) => {
       if (data) {
-        const response = getPagingData(data.pokemons, page, limit);
-        res.send(response);
-        logger.info(`Trainer requested sent : ${response}`);
+        //const response = getPagingData(data.pokemons, page, limit);
+        res.send(data.pokemons);
+        logger.info(`Trainer requested sent : ${data}`);
       } else {
         logger.info(`Trainer not found : ${id}`);
         res.status(404).send({

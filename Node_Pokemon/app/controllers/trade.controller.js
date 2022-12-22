@@ -8,32 +8,32 @@ const logger = require('../../logger');
 
 exports.propose_trade = async (req, res) => {
   const {
-    oldTrainerId,
-    newTrainerId,
-    oldPokemonId,
-    newPokemonId,
+    idTrainer1,
+    idTrainer2,
+    idPokemon1,
+    idPokemon2,
   } = req.body;
 
   try {
     // Find the Trainer records
-    const oldTrainer = await Trainer.findByPk(oldTrainerId);
-    const newTrainer = await Trainer.findByPk(newTrainerId);
-    const oldPokemon = await Pokemon.findByPk(oldPokemonId);
-    const newPokemon = await Pokemon.findByPk(newPokemonId);
+    const trainer1 = await Trainer.findByPk(idTrainer1);
+    const trainer2 = await Trainer.findByPk(idTrainer2);
+    const pokemon1 = await Pokemon.findByPk(idPokemon1);
+    const pokemon2 = await Pokemon.findByPk(idPokemon2);
 
-    logger.info(`--->>${oldTrainer.id} ${newTrainer.id} ${oldPokemon.id} ${newPokemon.id}`);
+    logger.info(`--->>${trainer1.id} ${trainer2.id} ${pokemon1.id} ${pokemon2.id}`);
 
     // Create a new Trade proposal record
     await Trade.create({
-      old_trainer_id: oldTrainer.id,
-      new_trainer_id: newTrainer.id,
-      old_pokemon_id: oldPokemon.id,
-      new_pokemon_id: newPokemon.id,
+      trainer1: trainer1.id,
+      trainer2: trainer2.id,
+      pokemon1: pokemon1.id,
+      pokemon2: pokemon2.id,
       status: 'pending',
     });
 
     // Return a response indicating that the trade proposal was successfully submitted
-    logger.info('Trade proposal submitted successfully :');
+    logger.info('Trade proposal submitted successfully !');
     res.send({
       message: 'Trade proposal submitted',
     });
@@ -53,30 +53,33 @@ exports.accept_reject_trade = async (req, res) => {
   } = req.body;
 
   try {
-    // Find the Trade proposal record
+    // Find the Trade proposal 
     const trade = await Trade.findByPk(tradeId);
 
     if (status === 'accepted') {
-      // Find the Pokemon records involved in the trade
-      const pokemon_old = await Pokemon.findByPk(trade.old_pokemon_id);
-      const pokemon_new = await Pokemon.findByPk(trade.new_pokemon_id);
+      // Find the Pokemon involved in the trade
+      const pokemon1 = await Pokemon.findByPk(trade.pokemon1);
+      const pokemon2 = await Pokemon.findByPk(trade.pokemon2);
 
-      pokemon_old.set('trainerId', trade.new_trainer_id);
-      pokemon_new.set('trainerId', trade.old_trainer_id);
+      pokemon1.set('trainerId', trade.trainer2);
+      pokemon2.set('trainerId', trade.trainer1);
 
-      // Save the updated Pokemon records to the database
-      await Promise.all(pokemon_old.save(), pokemon_new.save());
+      pokemon1.save();
+      pokemon2.save();
+
+      // Save the updated Pokemon to the database
+      //await Promise.all(pokemon1.save(), pokemon2.save());
     }
 
-    // Update the status field of the Trade proposal record
+    // Update the status field of the Trade proposal 
     trade.set('status', status);
 
-    // Save the updated Trade proposal record to the database
+    // Save the updated Trade proposal to the database
     await trade.save();
 
     // Return a response indicating that the trade proposal was successfully accepted or rejected
     res.send({
-      message: 'Trade proposal accepted or rejected',
+      message: 'Trade proposal has been ' + status,
     });
   } catch (error) {
     // Handle any errors that occurred during the accept/reject process

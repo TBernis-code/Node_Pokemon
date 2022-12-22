@@ -6,7 +6,7 @@ const logger = require('../../logger');
 // Create and Save a new Pokemon
 exports.create = (req, res) => {
   // Validate request
-  if (!req.body.login) {
+  if (!req.body.nom) {
     logger.info('empty request');
     res.status(400).send({
       message: 'Content can not be empty!',
@@ -23,6 +23,7 @@ exports.create = (req, res) => {
     taille: req.body.taille,
     poids: req.body.poids,
     chromatique: req.body.chromatique,
+    trainerId: req.body.trainerId,
   };
 
   // Save Pokemon in the database

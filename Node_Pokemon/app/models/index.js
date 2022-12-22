@@ -18,13 +18,10 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const db = {};
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-db.trainers = require('./trainer.model')(sequelize, Sequelize);
-db.pokemons = require('./pokemon.model')(sequelize, Sequelize);
-db.roles = require('./role.model')(sequelize, Sequelize);
-db.trades = require('./trade.model')(sequelize, Sequelize);
+db.trainers = require('./trainer.model')(sequelize, Sequelize.DataTypes);
+db.pokemons = require('./pokemon.model')(sequelize, Sequelize.DataTypes);
+db.roles = require('./role.model')(sequelize, Sequelize.DataTypes);
+db.trades = require('./trade.model')(sequelize, Sequelize.DataTypes);
 
 const models = [
   require('./trainer.model')(sequelize, Sequelize.DataTypes),
@@ -44,5 +41,8 @@ Object.keys(db).forEach((modelName) => {
 });
 
 db.ROLES = ['USER', 'ADMIN'];
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
 
 module.exports = db;

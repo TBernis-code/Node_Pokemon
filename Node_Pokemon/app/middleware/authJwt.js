@@ -30,6 +30,7 @@ verifyToken = (req, res, next) => {
   jwt.verify(bearerToken[1], process.env.secret, (err, decoded) => {
     if (err) {
       logger.info(`Unauthorized :${err}`);
+      console.log(err);
       return res.status(401).send({
         message: 'verifyToken : Unauthorized!',
       });
